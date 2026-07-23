@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <title>Undangan Pernikahan Danang & Dyah</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg-dark: #0a1c18;        /* Deep Emerald */
+            --bg-card: #ffffff;
+            --accent-gold: #d4af37;    /* Metallic Gold */
+            --accent-rose: #e8c39e;
+            --text-dark: #2c3e50;
+            --text-light: #f8f9fa;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: #0f2b25;
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        /* ----------------------------------------------------
+           1. SAMPUL / COVER OPENING (OVERLAY)
+        ---------------------------------------------------- */
+        #coverOverlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100vh;
+            background: linear-gradient(rgba(10, 28, 24, 0.7), rgba(10, 28, 24, 0.85)), 
+                        url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
+            z-index: 99999;
+            display: flex; justify-content: center; align-items: center; flex-direction: column;
+            color: var(--text-light); text-align: center; padding: 20px;
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease;
+        }
+
+        .cover-card {
+            border: 1px solid rgba(212, 175, 55, 0.5);
+            background: rgba(10, 28, 24, 0.4);
+            backdrop-filter: blur(8px);
+            padding: 40px 25px; border-radius: 16px;
+            max-width: 450px; width: 100%;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        }
+
+        .cover-subtitle { font-family: 'Cinzel', serif; letter-spacing: 3px; font-size: 10pt; color: var(--accent-gold); margin-bottom: 10px; }
+        .cover-title { font-family: 'Great Vibes', cursive; font-size: 38pt; color: #fff; margin-bottom: 15px; }
+        .cover-to { font-size: 8.5pt; color: #ccc; margin-top: 15px; }
+        .cover-guest { font-family: 'Cinzel', serif; font-size: 14pt; color: var(--accent-gold); margin-bottom: 25px; font-weight: 600; }
+
+        .btn-open {
+            font-family: 'Montserrat', sans-serif; font-size: 9.5pt; font-weight: 600;
+            background: linear-gradient(135deg, var(--accent-gold) 0%, #a38120 100%);
+            color: #fff; border: none; padding: 12px 30px; border-radius: 30px;
+            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        .btn-open:hover { transform: scale(1.05); }
+
+        .cover-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+
+        /* ----------------------------------------------------
+           2. WIDGET UTAMA & HERO SLIDER
+        ---------------------------------------------------- */
+        .container { max-width: 480px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 30px rgba(0,0,0,0.3); position: relative; }
+
+        .hero-banner {
+            position: relative; height: 380px; overflow: hidden;
+        }
+
+        .slider { width: 100%; height: 100%; position: relative; }
+        .slide {
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            opacity: 0; transition: opacity 1.2s ease-in-out;
+            background-size: cover; background-position: center;
+        }
+        .slide.active { opacity: 1; }
+
+        .hero-overlay {
+            position: absolute; bottom: 0; left: 0; width: 100%; height: 50%;
+            background: linear-gradient(to top, #ffffff, transparent);
+        }
+
+        /* ----------------------------------------------------
+           3. KONTEN MEMPELAI & DETAIL ACARA
+        ---------------------------------------------------- */
+        .content { padding: 25px 20px; text-align: center; }
+        .mempelai-title { font-family: 'Great Vibes', cursive; font-size: 34pt; color: #0a1c18; margin: 10px 0; }
+        .text-gold { color: var(--accent-gold); }
+        .sub-heading { font-family: 'Cinzel', serif; font-size: 11pt; letter-spacing: 2px; color: #666; }
+
+        .card-box {
+            background: #fdfbf7; border: 1px solid rgba(212, 175, 55, 0.25);
+            border-radius: 12px; padding: 20px; margin: 25px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        }
+
+        /* Countdown */
+        .timer-grid { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
+        .timer-box { background: var(--bg-dark); color: #fff; padding: 10px; border-radius: 8px; min-width: 65px; }
+        .timer-num { font-size: 14pt; font-weight: 700; color: var(--accent-gold); display: block; }
+        .timer-label { font-size: 7pt; text-transform: uppercase; color: #ddd; }
+
+        /* Galeri Foto Grid */
+        .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
+        .gallery-img { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
+
+        /* Music Widget Floating */
+        .music-btn {
+            position: fixed; bottom: 20px; right: 20px; z-index: 999;
+            background: var(--bg-dark); color: var(--accent-gold); border: 1px solid var(--accent-gold);
+            width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 14pt;
+        }
+
+        .btn-action {
+            display: inline-block; width: 100%; background: var(--bg-dark); color: var(--accent-gold);
+            padding: 12px; border-radius: 25px; font-weight: 600; text-decoration: none;
+            margin-top: 10px; font-size: 9pt; border: 1px solid var(--accent-gold);
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 1. COVER OVERLAY MEMPELAI -->
+    <div id="coverOverlay">
+        <div class="cover-card">
+            <div class="cover-subtitle">WEDDING ANNOUNCEMENT</div>
+            <div class="cover-title">Danang & Dyah</div>
+            <div class="cover-to">Kepada Yth. Bapak/Ibu/Saudara/i:</div>
+            <div class="cover-guest" id="guestNameCover">Tamu Undangan</div>
+            
+            <button class="btn-open" onclick="openInvitation()">💌 Buka Undangan</button>
+        </div>
+    </div>
+
+    <!-- 2. KONTEN UTAMA WEBPAGE -->
+    <div class="container">
+        
+        <!-- SLIDER HEADER PREWEDDING -->
+        <div class="hero-banner">
+            <div class="slider">
+                <!-- Foto 1 -->
+                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80');"></div>
+                <!-- Foto 2 -->
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80');"></div>
+                <!-- Foto 3 -->
+                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80');"></div>
+            </div>
+            <div class="hero-overlay"></div>
+        </div>
+
+        <div class="content">
+            <div class="sub-heading">THE WEDDING OF</div>
+            <div class="mempelai-title">Danang & Dyah</div>
+            <p style="font-size: 9pt; color: #777;">Sabtu, 12 Desember 2026</p>
+
+            <!-- CARD MEMPELAI -->
+            <div class="card-box">
+                <h3 style="font-family: 'Cinzel', serif; color: var(--accent-gold); margin-bottom: 15px;">Mempelai Pria & Wanita</h3>
+                <p><strong>Danang Prasetyo, S.T.</strong><br><small style="color: #666;">Putra dari Bapak Suwandi & Ibu Sumarni</small></p>
+                <div style="font-family: 'Great Vibes', cursive; font-size: 22pt; margin: 10px 0;" class="text-gold">&</div>
+                <p><strong>Dyah Ayu Wulandari, S.E.</strong><br><small style="color: #666;">Putri dari Bapak Bambang & Ibu Sri Rejeki</small></p>
+            </div>
+
+            <!-- CARD DETAIL ACARA -->
+            <div class="card-box">
+                <h3 style="font-family: 'Cinzel', serif; color: var(--accent-gold);">Waktu & Lokasi</h3>
+                <hr style="border: 0; height: 1px; background: #eee; margin: 15px 0;">
+                
+                <p><strong>AKAD NIKAH</strong><br>Pukul 08.00 WIB - Selesai</p>
+                <br>
+                <p><strong>RESEPSI PERNIKAHAN</strong><br>Pukul 11.00 WIB - Selesai</p>
+                <br>
+                <p style="font-size: 9pt; color: #555;">📍 <strong>Ballroom Hotel Grand Palace</strong><br>Jl. Soekarno Hatta No. 88, Jakarta</p>
+                
+                <a href="https://maps.google.com" target="_blank" class="btn-action">📍 Buka Peta Lokasi (Google Maps)</a>
+            </div>
+
+            <!-- COUNTDOWN TIMER -->
+            <div class="card-box" style="background: var(--bg-dark); color: #fff;">
+                <div style="font-family: 'Cinzel', serif; font-size: 10pt; color: var(--accent-gold);">MENUJU HARI BAHAGIA</div>
+                <div class="timer-grid">
+                    <div class="timer-box"><span class="timer-num" id="days">00</span><span class="timer-label">Hari</span></div>
+                    <div class="timer-box"><span class="timer-num" id="hours">00</span><span class="timer-label">Jam</span></div>
+                    <div class="timer-box"><span class="timer-num" id="minutes">00</span><span class="timer-label">Menit</span></div>
+                    <div class="timer-box"><span class="timer-num" id="seconds">00</span><span class="timer-label">Detik</span></div>
+                </div>
+            </div>
+
+            <!-- GALERI FOTO GRID -->
+            <div class="card-box">
+                <h3 style="font-family: 'Cinzel', serif; color: var(--accent-gold); margin-bottom: 15px;">Galeri Prewedding</h3>
+                <div class="gallery-grid">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=500&q=80" class="gallery-img" alt="Prewedding 1">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=500&q=80" class="gallery-img" alt="Prewedding 2">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80" class="gallery-img" alt="Prewedding 3">
+                    <img src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=500&q=80" class="gallery-img" alt="Prewedding 4">
+                </div>
+            </div>
+
+            <p style="font-size: 8pt; color: #999; margin-top: 30px;">Merupakan suatu kehormatan & kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.<br><br>© 2026 Danang & Dyah Wedding</p>
+        </div>
+    </div>
+
+    <!-- MUSIC CONTROLLER -->
+    <button class="music-btn" onclick="toggleMusic()">🎵</button>
+    <audio id="bgMusic" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- JAVASCRIPT HANDLERS -->
+    <script>
+        // 1. TANGKAP NAMA TAMU DARI URL (?to=Gandi-Kobin)
+        window.addEventListener('DOMContentLoaded', () => {
+            const urlParams = new URLSearchParams(window.location.search);
+            let guestName = urlParams.get('to');
+
+            if (guestName) {
+                // Mengubah strip (-) atau plus (+) menjadi spasi rapi
+                guestName = guestName.replace(/[-+]/g, ' ');
+                document.getElementById('guestNameCover').innerText = guestName;
+            }
+        });
+
+        // 2. BUKA UNDANGAN & PLAY MUSIC
+        const music = document.getElementById("bgMusic");
+        function openInvitation() {
+            document.getElementById("coverOverlay").classList.add("cover-hidden");
+            music.play().catch(e => console.log(e));
+        }
+
+        function toggleMusic() {
+            if (music.paused) music.play();
+            else music.pause();
+        }
+
+        // 3. SLIDER FOTO OTOMATIS (SLIDESHOW)
+        let slideIndex = 0;
+        const slides = document.querySelectorAll(".slide");
+        
+        function showNextSlide() {
+            slides[slideIndex].classList.remove("active");
+            slideIndex = (slideIndex + 1) % slides.length;
+            slides[slideIndex].classList.add("active");
+        }
+        setInterval(showNextSlide, 3500); // Ganti gambar setiap 3.5 detik
+
+        // 4. COUNTDOWN TIMER
+        const eventDate = new Date("Dec 12, 2026 08:00:00").getTime();
+        setInterval(() => {
+            const now = new Date().getTime();
+            const diff = eventDate - now;
+
+            if (diff > 0) {
+                document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
+                document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                document.getElementById("minutes").innerText = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000);
+            }
+        }, 1000);
+    </script>
+</body>
+</html>
