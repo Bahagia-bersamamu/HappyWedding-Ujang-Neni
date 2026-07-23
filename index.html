@@ -2,213 +2,249 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Undangan Pernikahan Danang & Dyah</title>
-    
+
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700&family=Great+Vibes&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- AOS (Animate On Scroll) Library CSS -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
     <style>
         :root {
-            --bg-dark: #0a1c18;        /* Deep Emerald */
-            --bg-card: #ffffff;
-            --accent-gold: #d4af37;    /* Metallic Gold */
-            --accent-rose: #e8c39e;
-            --text-dark: #2c3e50;
-            --text-light: #f8f9fa;
+            --bg-cream: #e0d8c3;
+            --card-bg: rgba(255, 255, 255, 0.85);
+            --text-dark: #3a3228;
+            --accent-gold: #b38b4d;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
         body {
             font-family: 'Montserrat', sans-serif;
-            background-color: #0f2b25;
+            background-color: #1a1a1a;
             color: var(--text-dark);
+            display: flex;
+            justify-content: center;
+        }
+
+        .mobile-container {
+            width: 100%;
+            max-width: 480px;
+            background: #d8ceb9 url('https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=800&q=80') center/cover fixed;
+            min-height: 100vh;
+            position: relative;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
             overflow-x: hidden;
         }
 
-        /* ----------------------------------------------------
-           1. SAMPUL / COVER OPENING (OVERLAY)
-        ---------------------------------------------------- */
+        /* 1. COVER OVERLAY (SAMPUL DEPAN) */
         #coverOverlay {
-            position: fixed;
-            top: 0; left: 0; width: 100%; height: 100vh;
-            background: linear-gradient(rgba(10, 28, 24, 0.7), rgba(10, 28, 24, 0.85)), 
-                        url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=1200&q=80') center/cover no-repeat;
-            z-index: 99999;
-            display: flex; justify-content: center; align-items: center; flex-direction: column;
-            color: var(--text-light); text-align: center; padding: 20px;
+            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+            max-width: 480px; margin: 0 auto;
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.6)), url('foto-cover.jpg') center/cover;
+            z-index: 99999; display: flex; flex-direction: column;
+            justify-content: flex-end; align-items: center;
+            text-align: center; padding: 40px 20px; color: #fff;
             transition: transform 0.8s ease-in-out, opacity 0.8s ease;
         }
 
-        .cover-card {
-            border: 1px solid rgba(212, 175, 55, 0.5);
-            background: rgba(10, 28, 24, 0.4);
-            backdrop-filter: blur(8px);
-            padding: 40px 25px; border-radius: 16px;
-            max-width: 450px; width: 100%;
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
-        }
-
-        .cover-subtitle { font-family: 'Cinzel', serif; letter-spacing: 3px; font-size: 10pt; color: var(--accent-gold); margin-bottom: 10px; }
-        .cover-title { font-family: 'Great Vibes', cursive; font-size: 38pt; color: #fff; margin-bottom: 15px; }
-        .cover-to { font-size: 8.5pt; color: #ccc; margin-top: 15px; }
-        .cover-guest { font-family: 'Cinzel', serif; font-size: 14pt; color: var(--accent-gold); margin-bottom: 25px; font-weight: 600; }
-
+        .cover-title { font-family: 'Cinzel', serif; font-size: 11pt; letter-spacing: 3px; }
+        .cover-names { font-family: 'Great Vibes', cursive; font-size: 45pt; margin: 10px 0; }
+        .cover-guest { font-family: 'Cinzel', serif; font-size: 14pt; color: #ffd700; margin: 15px 0 25px 0; font-weight: 600; }
         .btn-open {
-            font-family: 'Montserrat', sans-serif; font-size: 9.5pt; font-weight: 600;
-            background: linear-gradient(135deg, var(--accent-gold) 0%, #a38120 100%);
-            color: #fff; border: none; padding: 12px 30px; border-radius: 30px;
-            cursor: pointer; transition: all 0.3s ease; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+            background: #d4af37; color: #000; font-weight: 600; border: none;
+            padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 9.5pt;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3); transition: transform 0.2s;
         }
         .btn-open:hover { transform: scale(1.05); }
-
         .cover-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 
-        /* ----------------------------------------------------
-           2. WIDGET UTAMA & HERO SLIDER
-        ---------------------------------------------------- */
-        .container { max-width: 480px; margin: 0 auto; background: #fff; min-height: 100vh; box-shadow: 0 0 30px rgba(0,0,0,0.3); position: relative; }
-
-        .hero-banner {
-            position: relative; height: 380px; overflow: hidden;
+        /* 2. DEKORASI HEADER & PARALLAX BACKGROUND */
+        .hero-illustration {
+            width: 100%; height: 380px;
+            background: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80') center/cover;
+            position: relative; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px;
         }
 
-        .slider { width: 100%; height: 100%; position: relative; }
-        .slide {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            opacity: 0; transition: opacity 1.2s ease-in-out;
-            background-size: cover; background-position: center;
-        }
-        .slide.active { opacity: 1; }
-
-        .hero-overlay {
-            position: absolute; bottom: 0; left: 0; width: 100%; height: 50%;
-            background: linear-gradient(to top, #ffffff, transparent);
-        }
-
-        /* ----------------------------------------------------
-           3. KONTEN MEMPELAI & DETAIL ACARA
-        ---------------------------------------------------- */
         .content { padding: 25px 20px; text-align: center; }
-        .mempelai-title { font-family: 'Great Vibes', cursive; font-size: 34pt; color: #0a1c18; margin: 10px 0; }
-        .text-gold { color: var(--accent-gold); }
-        .sub-heading { font-family: 'Cinzel', serif; font-size: 11pt; letter-spacing: 2px; color: #666; }
 
-        .card-box {
-            background: #fdfbf7; border: 1px solid rgba(212, 175, 55, 0.25);
-            border-radius: 12px; padding: 20px; margin: 25px 0;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+        /* KARTU ELEGAN ALA INVIGLORY */
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(179, 139, 77, 0.3);
+            border-radius: 20px;
+            padding: 25px 20px;
+            margin: 25px 0;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.06);
         }
 
-        /* Countdown */
-        .timer-grid { display: flex; justify-content: center; gap: 10px; margin-top: 15px; }
-        .timer-box { background: var(--bg-dark); color: #fff; padding: 10px; border-radius: 8px; min-width: 65px; }
-        .timer-num { font-size: 14pt; font-weight: 700; color: var(--accent-gold); display: block; }
-        .timer-label { font-size: 7pt; text-transform: uppercase; color: #ddd; }
+        .section-title { font-family: 'Cinzel', serif; font-size: 14pt; color: var(--accent-gold); letter-spacing: 2px; }
+        .script-title { font-family: 'Great Vibes', cursive; font-size: 32pt; color: var(--accent-gold); }
+
+        /* Foto Profil Mempelai Oval */
+        .profile-img {
+            width: 120px; height: 160px; object-fit: cover;
+            border-radius: 80px; border: 3px solid var(--accent-gold); margin-bottom: 15px;
+        }
+
+        /* Countdown Grid */
+        .timer-grid { display: flex; justify-content: center; gap: 8px; margin-top: 15px; }
+        .timer-box {
+            background: #ffffff; border: 1px solid var(--accent-gold);
+            padding: 8px; border-radius: 10px; min-width: 55px;
+        }
+        .timer-num { font-size: 13pt; font-weight: 700; color: var(--accent-gold); display: block; }
+        .timer-label { font-size: 7pt; text-transform: uppercase; }
 
         /* Galeri Foto Grid */
         .gallery-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 15px; }
-        .gallery-img { width: 100%; height: 140px; object-fit: cover; border-radius: 8px; border: 1px solid #ddd; }
+        .gallery-img { width: 100%; height: 130px; object-fit: cover; border-radius: 12px; }
 
-        /* Music Widget Floating */
-        .music-btn {
-            position: fixed; bottom: 20px; right: 20px; z-index: 999;
-            background: var(--bg-dark); color: var(--accent-gold); border: 1px solid var(--accent-gold);
-            width: 45px; height: 45px; border-radius: 50%; display: flex; justify-content: center; align-items: center;
-            cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.3); font-size: 14pt;
+        /* Form RSVP & Ucapan */
+        .form-control {
+            width: 100%; padding: 12px; border-radius: 10px;
+            border: 1px solid #ccc; margin-top: 8px; font-family: inherit; font-size: 9pt;
+        }
+        .btn-submit {
+            width: 100%; background: var(--accent-gold); color: #fff;
+            border: none; padding: 12px; border-radius: 10px; font-weight: 600; margin-top: 15px; cursor: pointer;
         }
 
-        .btn-action {
-            display: inline-block; width: 100%; background: var(--bg-dark); color: var(--accent-gold);
-            padding: 12px; border-radius: 25px; font-weight: 600; text-decoration: none;
-            margin-top: 10px; font-size: 9pt; border: 1px solid var(--accent-gold);
+        /* Daftar Komentar Tamu */
+        .comment-box { max-height: 200px; overflow-y: auto; text-align: left; margin-top: 15px; }
+        .comment-item { background: #fff; padding: 10px 12px; border-radius: 8px; margin-bottom: 8px; font-size: 8.5pt; border-left: 3px solid var(--accent-gold); }
+        .comment-name { font-weight: 600; color: var(--accent-gold); }
+
+        /* Music Button Floating */
+        .music-btn {
+            position: fixed; bottom: 20px; right: 20px;
+            background: var(--accent-gold); color: #fff; border: none;
+            width: 45px; height: 45px; border-radius: 50%; font-size: 14pt;
+            cursor: pointer; z-index: 999; box-shadow: 0 4px 15px rgba(0,0,0,0.3);
         }
     </style>
 </head>
 <body>
 
-    <!-- 1. COVER OVERLAY MEMPELAI -->
-    <div id="coverOverlay">
-        <div class="cover-card">
-            <div class="cover-subtitle">WEDDING ANNOUNCEMENT</div>
-            <div class="cover-title">Danang & Dyah</div>
-            <div class="cover-to">Kepada Yth. Bapak/Ibu/Saudara/i:</div>
-            <div class="cover-guest" id="guestNameCover">Tamu Undangan</div>
-            
-            <button class="btn-open" onclick="openInvitation()">💌 Buka Undangan</button>
-        </div>
-    </div>
+    <div class="mobile-container">
 
-    <!-- 2. KONTEN UTAMA WEBPAGE -->
-    <div class="container">
-        
-        <!-- SLIDER HEADER PREWEDDING -->
-        <div class="hero-banner">
-            <div class="slider">
-                <!-- Foto 1 -->
-                <div class="slide active" style="background-image: url('https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=800&q=80');"></div>
-                <!-- Foto 2 -->
-                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=800&q=80');"></div>
-                <!-- Foto 3 -->
-                <div class="slide" style="background-image: url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80');"></div>
-            </div>
-            <div class="hero-overlay"></div>
+        <!-- 1. SAMPUL COVER OVERLAY -->
+        <div id="coverOverlay">
+            <div class="cover-title">THE WEDDING OF</div>
+            <div class="cover-names">Danang & Dyah</div>
+            <div style="font-size: 8.5pt;">Kepada Bapak/Ibu/Saudara/i:</div>
+            <div class="cover-guest" id="guestNameCover">Gandi Kobin</div>
+            <button class="btn-open" onclick="openInvitation()">✉️ BUKA UNDANGAN</button>
         </div>
 
+        <!-- 2. HERO HEADER PHOTO -->
+        <div class="hero-illustration"></div>
+
+        <!-- 3. ISI KONTEN (ANIMASI AOS BERAGAM) -->
         <div class="content">
-            <div class="sub-heading">THE WEDDING OF</div>
-            <div class="mempelai-title">Danang & Dyah</div>
-            <p style="font-size: 9pt; color: #777;">Sabtu, 12 Desember 2026</p>
 
-            <!-- CARD MEMPELAI -->
-            <div class="card-box">
-                <h3 style="font-family: 'Cinzel', serif; color: var(--accent-gold); margin-bottom: 15px;">Mempelai Pria & Wanita</h3>
-                <p><strong>Danang Prasetyo, S.T.</strong><br><small style="color: #666;">Putra dari Bapak Suwandi & Ibu Sumarni</small></p>
-                <div style="font-family: 'Great Vibes', cursive; font-size: 22pt; margin: 10px 0;" class="text-gold">&</div>
-                <p><strong>Dyah Ayu Wulandari, S.E.</strong><br><small style="color: #666;">Putri dari Bapak Bambang & Ibu Sri Rejeki</small></p>
+            <!-- FOTO UTAMA & AYAT (Animasi Fade Up) -->
+            <div class="card" data-aos="fade-up">
+                <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80" style="width:100%; border-radius:12px; margin-bottom:15px;" alt="Prewedding">
+                <p style="font-size: 8.5pt; font-style: italic; color: #555;">
+                    "Dan di antara tanda-tanda (kebesaran)-Nya ialah Dia menciptakan pasangan-pasangan untukmu dari jenismu sendiri, agar kamu cenderung dan merasa tenteram kepadanya..."<br><strong>(Q.S. Ar-Rum: 21)</strong>
+                </p>
             </div>
 
-            <!-- CARD DETAIL ACARA -->
-            <div class="card-box">
-                <h3 style="font-family: 'Cinzel', serif; color: var(--accent-gold);">Waktu & Lokasi</h3>
-                <hr style="border: 0; height: 1px; background: #eee; margin: 15px 0;">
-                
-                <p><strong>AKAD NIKAH</strong><br>Pukul 08.00 WIB - Selesai</p>
-                <br>
-                <p><strong>RESEPSI PERNIKAHAN</strong><br>Pukul 11.00 WIB - Selesai</p>
-                <br>
-                <p style="font-size: 9pt; color: #555;">📍 <strong>Ballroom Hotel Grand Palace</strong><br>Jl. Soekarno Hatta No. 88, Jakarta</p>
-                
-                <a href="https://maps.google.com" target="_blank" class="btn-action">📍 Buka Peta Lokasi (Google Maps)</a>
+            <!-- CARD MEMPELAI (Animasi Zoom In) -->
+            <div class="card" data-aos="zoom-in">
+                <div class="section-title">MEMPELAI</div>
+                <div class="script-title">Danang & Dyah</div>
+                <hr style="border:0; height:1px; background:var(--accent-gold); margin:15px 0;">
+
+                <div>
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300&q=80" class="profile-img" alt="Danang">
+                    <h3 style="font-size:11pt;">drg. Danang Bayu N.</h3>
+                    <p style="font-size:8pt; color:#666;">Putra Pertama dari<br>Bpk. Yuda Purwanto & Ibu Lilik Ratnasari</p>
+                </div>
+
+                <div class="script-title" style="margin: 15px 0;">&</div>
+
+                <div>
+                    <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=300&q=80" class="profile-img" alt="Dyah">
+                    <h3 style="font-size:11pt;">Dyah Ayu Kusumawardhani, S.Ak.</h3>
+                    <p style="font-size:8pt; color:#666;">Putri Keempat dari<br>Bpk. Wariasmadi & Ibu Sumiati</p>
+                </div>
             </div>
 
-            <!-- COUNTDOWN TIMER -->
-            <div class="card-box" style="background: var(--bg-dark); color: #fff;">
-                <div style="font-family: 'Cinzel', serif; font-size: 10pt; color: var(--accent-gold);">MENUJU HARI BAHAGIA</div>
+            <!-- CARD ACARA & COUNTDOWN (Animasi Flip Left) -->
+            <div class="card" data-aos="flip-left">
+                <div class="section-title">SAVE THE DATE</div>
+                
                 <div class="timer-grid">
                     <div class="timer-box"><span class="timer-num" id="days">00</span><span class="timer-label">Hari</span></div>
                     <div class="timer-box"><span class="timer-num" id="hours">00</span><span class="timer-label">Jam</span></div>
                     <div class="timer-box"><span class="timer-num" id="minutes">00</span><span class="timer-label">Menit</span></div>
                     <div class="timer-box"><span class="timer-num" id="seconds">00</span><span class="timer-label">Detik</span></div>
                 </div>
+
+                <hr style="border:0; height:1px; background:#ddd; margin:20px 0;">
+
+                <h4 style="color:var(--accent-gold);">AKAD NIKAH</h4>
+                <p style="font-size:8.5pt;">Rabu, 29 Juli 2026<br>08.00 WIB - Selesai</p>
+
+                <h4 style="color:var(--accent-gold); margin-top:15px;">RESEPSI</h4>
+                <p style="font-size:8.5pt;">Sabtu, 01 Agustus 2026<br>13.00 - 16.00 WIB</p>
+                <p style="font-size:8pt; color:#555; margin-top:5px;">📍 Astoria Convention Hall, Trenggalek</p>
             </div>
 
-            <!-- GALERI FOTO GRID -->
-            <div class="card-box">
-                <h3 style="font-family: 'Cinzel', serif; color: var(--accent-gold); margin-bottom: 15px;">Galeri Prewedding</h3>
+            <!-- CARD GALERI FOTO (Animasi Slide Up) -->
+            <div class="card" data-aos="fade-up">
+                <div class="section-title">OUR GALLERY</div>
                 <div class="gallery-grid">
-                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=500&q=80" class="gallery-img" alt="Prewedding 1">
-                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=500&q=80" class="gallery-img" alt="Prewedding 2">
-                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=500&q=80" class="gallery-img" alt="Prewedding 3">
-                    <img src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=500&q=80" class="gallery-img" alt="Prewedding 4">
+                    <img src="https://images.unsplash.com/photo-1511285560929-80b456fea0bc?auto=format&fit=crop&w=400&q=80" class="gallery-img">
+                    <img src="https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=400&q=80" class="gallery-img">
+                    <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80" class="gallery-img">
+                    <img src="https://images.unsplash.com/photo-1532712938310-34cb3982ef74?auto=format&fit=crop&w=400&q=80" class="gallery-img">
                 </div>
             </div>
 
-            <p style="font-size: 8pt; color: #999; margin-top: 30px;">Merupakan suatu kehormatan & kebahagiaan bagi kami apabila Bapak/Ibu/Saudara/i berkenan hadir.<br><br>© 2026 Danang & Dyah Wedding</p>
+            <!-- CARD RSVP & WISHES (Animasi Slide Right) -->
+            <div class="card" data-aos="fade-right">
+                <div class="section-title">RSVP & UCAPAN</div>
+                <input type="text" id="waNama" class="form-control" placeholder="Nama Lengkap">
+                <select id="waHadir" class="form-control">
+                    <option value="Hadir">Hadir</option>
+                    <option value="Tidak Hadir">Tidak Hadir</option>
+                </select>
+                <textarea id="waUcapan" class="form-control" rows="3" placeholder="Tuliskan ucapan dan doa..."></textarea>
+                <button class="btn-submit" onclick="kirimWhatsApp()">KIRIM KONFIRMASI 💬</button>
+
+                <!-- Ucapan Masuk -->
+                <div class="comment-box">
+                    <div class="comment-item">
+                        <div class="comment-name">Shin Tae Yong (Hadir)</div>
+                        <div>Happy wedding Danang & Dyah, samawa!</div>
+                    </div>
+                    <div class="comment-item">
+                        <div class="comment-name">Dimas Radityo (Hadir)</div>
+                        <div>Semoga lancar persiapannya sampai hari H ya mba Dyah!</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD WEDDING GIFT (Animasi Zoom In) -->
+            <div class="card" data-aos="zoom-in">
+                <div class="section-title">WEDDING GIFT</div>
+                <p style="font-size:8pt; color:#666; margin:10px 0;">Doa restu Anda sangat berarti bagi kami. Apabila ingin memberikan tanda kasih cashless:</p>
+                
+                <p><strong>BCA:</strong> 7690344178<br><small>a.n Dyah Ayu Kusumawardhani</small></p>
+                <button style="padding:6px 15px; border-radius:15px; border:1px solid #b38b4d; background:none; margin-top:5px; font-size:8pt; cursor:pointer;" onclick="navigator.clipboard.writeText('7690344178'); alert('No. Rekening BCA Berhasil Disalin!');">📋 Salin No. Rekening</button>
+            </div>
+
+            <p style="font-size:7.5pt; color:#888; margin-top:20px;">Made with ❤️ by Inviglory Clone</p>
         </div>
+
     </div>
 
     <!-- MUSIC CONTROLLER -->
@@ -217,21 +253,27 @@
         <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- JAVASCRIPT HANDLERS -->
+    <!-- AOS Animation Library JS -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        // 1. TANGKAP NAMA TAMU DARI URL (?to=Gandi-Kobin)
+        // Inisialisasi Efek Animasi AOS
+        AOS.init({
+            duration: 1000, // Durasi gerakan (1 detik)
+            once: false     // Animasi aktif terus saat di-scroll naik-turun
+        });
+
+        // Tangkap nama dari URL (?to=Nama)
         window.addEventListener('DOMContentLoaded', () => {
             const urlParams = new URLSearchParams(window.location.search);
-            let guestName = urlParams.get('to');
-
-            if (guestName) {
-                // Mengubah strip (-) atau plus (+) menjadi spasi rapi
-                guestName = guestName.replace(/[-+]/g, ' ');
-                document.getElementById('guestNameCover').innerText = guestName;
+            let guest = urlParams.get('to');
+            if (guest) {
+                guest = guest.replace(/[-+]/g, ' ');
+                document.getElementById('guestNameCover').innerText = guest;
+                document.getElementById('waNama').value = guest;
             }
         });
 
-        // 2. BUKA UNDANGAN & PLAY MUSIC
+        // Buka Undangan & Play Musik
         const music = document.getElementById("bgMusic");
         function openInvitation() {
             document.getElementById("coverOverlay").classList.add("cover-hidden");
@@ -243,23 +285,11 @@
             else music.pause();
         }
 
-        // 3. SLIDER FOTO OTOMATIS (SLIDESHOW)
-        let slideIndex = 0;
-        const slides = document.querySelectorAll(".slide");
-        
-        function showNextSlide() {
-            slides[slideIndex].classList.remove("active");
-            slideIndex = (slideIndex + 1) % slides.length;
-            slides[slideIndex].classList.add("active");
-        }
-        setInterval(showNextSlide, 3500); // Ganti gambar setiap 3.5 detik
-
-        // 4. COUNTDOWN TIMER
-        const eventDate = new Date("Dec 12, 2026 08:00:00").getTime();
+        // Countdown Timer
+        const eventDate = new Date("Jul 29, 2026 08:00:00").getTime();
         setInterval(() => {
             const now = new Date().getTime();
             const diff = eventDate - now;
-
             if (diff > 0) {
                 document.getElementById("days").innerText = Math.floor(diff / (1000 * 60 * 60 * 24));
                 document.getElementById("hours").innerText = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -267,6 +297,18 @@
                 document.getElementById("seconds").innerText = Math.floor((diff % (1000 * 60)) / 1000);
             }
         }, 1000);
+
+        // Kirim WhatsApp
+        function kirimWhatsApp() {
+            const noWA = "6281234567890"; // GANTI DENGAN NOMOR HP KAMU
+            const nama = document.getElementById("waNama").value;
+            const hadir = document.getElementById("waHadir").value;
+            const ucapan = document.getElementById("waUcapan").value;
+
+            if(!nama || !ucapan) { alert("Lengkapi nama dan ucapan!"); return; }
+            const msg = `*RSVP & UCAPAN*%0ANama: ${nama}%0AKehadiran: ${hadir}%0AUcapan: "${ucapan}"`;
+            window.open(`https://api.whatsapp.com/send?phone=${noWA}&text=${msg}`, '_blank');
+        }
     </script>
 </body>
 </html>
