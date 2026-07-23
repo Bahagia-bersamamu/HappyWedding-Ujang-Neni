@@ -23,12 +23,14 @@
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
 
+        /* KUNCI SCROLL LAYAR DI AWAL */
         body {
             font-family: 'Montserrat', sans-serif;
             background-color: #1a1a1a;
             color: var(--text-dark);
             display: flex;
             justify-content: center;
+            overflow: hidden; /* Mengunci scroll sebelum tombol Buka Undangan diklik */
         }
 
         .mobile-container {
@@ -55,6 +57,7 @@
         .cover-title { font-family: 'Cinzel', serif; font-size: 11pt; letter-spacing: 3px; }
         .cover-names { font-family: 'Great Vibes', cursive; font-size: 45pt; margin: 10px 0; }
         .cover-guest { font-family: 'Cinzel', serif; font-size: 14pt; color: #ffd700; margin: 15px 0 25px 0; font-weight: 600; }
+        
         .btn-open {
             background: #d4af37; color: #000; font-weight: 600; border: none;
             padding: 12px 30px; border-radius: 25px; cursor: pointer; font-size: 9.5pt;
@@ -72,7 +75,7 @@
 
         .content { padding: 25px 20px; text-align: center; }
 
-        /* KARTU ELEGAN ALA INVIGLORY */
+        /* KARTU ELEGAN */
         .card {
             background: var(--card-bg);
             backdrop-filter: blur(5px);
@@ -138,17 +141,20 @@
             <div class="cover-title">THE WEDDING OF</div>
             <div class="cover-names">Danang & Dyah</div>
             <div style="font-size: 8.5pt;">Kepada Bapak/Ibu/Saudara/i:</div>
-            <div class="cover-guest" id="guestNameCover">Gandi Kobin</div>
+            
+            <!-- Default Nama diubah menjadi Tamu Undangan -->
+            <div class="cover-guest" id="guestNameCover">Tamu Undangan</div>
+            
             <button class="btn-open" onclick="openInvitation()">✉️ BUKA UNDANGAN</button>
         </div>
 
         <!-- 2. HERO HEADER PHOTO -->
         <div class="hero-illustration"></div>
 
-        <!-- 3. ISI KONTEN (ANIMASI AOS BERAGAM) -->
+        <!-- 3. ISI KONTEN (DENGAN ANIMASI AOS) -->
         <div class="content">
 
-            <!-- FOTO UTAMA & AYAT (Animasi Fade Up) -->
+            <!-- FOTO UTAMA & AYAT -->
             <div class="card" data-aos="fade-up">
                 <img src="https://images.unsplash.com/photo-1583939003579-730e3918a45a?auto=format&fit=crop&w=400&q=80" style="width:100%; border-radius:12px; margin-bottom:15px;" alt="Prewedding">
                 <p style="font-size: 8.5pt; font-style: italic; color: #555;">
@@ -156,7 +162,7 @@
                 </p>
             </div>
 
-            <!-- CARD MEMPELAI (Animasi Zoom In) -->
+            <!-- CARD MEMPELAI -->
             <div class="card" data-aos="zoom-in">
                 <div class="section-title">MEMPELAI</div>
                 <div class="script-title">Danang & Dyah</div>
@@ -177,7 +183,7 @@
                 </div>
             </div>
 
-            <!-- CARD ACARA & COUNTDOWN (Animasi Flip Left) -->
+            <!-- CARD ACARA & COUNTDOWN -->
             <div class="card" data-aos="flip-left">
                 <div class="section-title">SAVE THE DATE</div>
                 
@@ -198,7 +204,7 @@
                 <p style="font-size:8pt; color:#555; margin-top:5px;">📍 Astoria Convention Hall, Trenggalek</p>
             </div>
 
-            <!-- CARD GALERI FOTO (Animasi Slide Up) -->
+            <!-- CARD GALERI FOTO -->
             <div class="card" data-aos="fade-up">
                 <div class="section-title">OUR GALLERY</div>
                 <div class="gallery-grid">
@@ -209,7 +215,7 @@
                 </div>
             </div>
 
-            <!-- CARD RSVP & WISHES (Animasi Slide Right) -->
+            <!-- CARD RSVP & WISHES -->
             <div class="card" data-aos="fade-right">
                 <div class="section-title">RSVP & UCAPAN</div>
                 <input type="text" id="waNama" class="form-control" placeholder="Nama Lengkap">
@@ -220,7 +226,7 @@
                 <textarea id="waUcapan" class="form-control" rows="3" placeholder="Tuliskan ucapan dan doa..."></textarea>
                 <button class="btn-submit" onclick="kirimWhatsApp()">KIRIM KONFIRMASI 💬</button>
 
-                <!-- Ucapan Masuk -->
+                <!-- Daftar Ucapan -->
                 <div class="comment-box">
                     <div class="comment-item">
                         <div class="comment-name">Shin Tae Yong (Hadir)</div>
@@ -233,7 +239,7 @@
                 </div>
             </div>
 
-            <!-- CARD WEDDING GIFT (Animasi Zoom In) -->
+            <!-- CARD WEDDING GIFT -->
             <div class="card" data-aos="zoom-in">
                 <div class="section-title">WEDDING GIFT</div>
                 <p style="font-size:8pt; color:#666; margin:10px 0;">Doa restu Anda sangat berarti bagi kami. Apabila ingin memberikan tanda kasih cashless:</p>
@@ -258,8 +264,8 @@
     <script>
         // Inisialisasi Efek Animasi AOS
         AOS.init({
-            duration: 1000, // Durasi gerakan (1 detik)
-            once: false     // Animasi aktif terus saat di-scroll naik-turun
+            duration: 1000,
+            once: false
         });
 
         // Tangkap nama dari URL (?to=Nama)
@@ -273,10 +279,19 @@
             }
         });
 
-        // Buka Undangan & Play Musik
+        // FUNGSI BUKA UNDANGAN (MENGHILANGKAN COVER & MEMBUKA SCROLL LAYAR)
         const music = document.getElementById("bgMusic");
         function openInvitation() {
+            // Sembunyikan cover
             document.getElementById("coverOverlay").classList.add("cover-hidden");
+            
+            // Buka kuncian scroll pada body
+            document.body.style.overflow = "auto";
+            
+            // Refresh animasi AOS agar langsung berjalan saat dibuka
+            AOS.refresh();
+
+            // Putar musik
             music.play().catch(e => console.log(e));
         }
 
